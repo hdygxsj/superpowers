@@ -24,15 +24,14 @@ ln -s ~/.qoder/superpowers/agents/*.md ~/.qoder/agents/
 
 ### Step 3: Configure Hooks (Optional but Recommended)
 
-Add session-start hook to inject Superpowers context on startup:
+Add session-start hook to inject Superpowers context on prompt submit:
 
 **User-level** (`~/.qoder/settings.json`):
 ```json
 {
   "hooks": {
-    "sessionStart": [
+    "UserPromptSubmit": [
       {
-        "matcher": "startup|clear|compact",
         "hooks": [
           {
             "type": "command",
@@ -118,15 +117,14 @@ Custom agents are invoked with:
 
 ## Hooks (Optional)
 
-Superpowers includes session-start hooks. To enable them, add to your Qoder settings:
+Superpowers includes session-start hooks to inject Superpowers context on startup. To enable them, add to your Qoder settings:
 
 **User-level** (`~/.qoder/settings.json`):
 ```json
 {
   "hooks": {
-    "sessionStart": [
+    "UserPromptSubmit": [
       {
-        "matcher": "startup|clear|compact",
         "hooks": [
           {
             "type": "command",
@@ -143,9 +141,8 @@ Superpowers includes session-start hooks. To enable them, add to your Qoder sett
 ```json
 {
   "hooks": {
-    "sessionStart": [
+    "UserPromptSubmit": [
       {
-        "matcher": "startup|clear|compact",
         "hooks": [
           {
             "type": "command",
