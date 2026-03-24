@@ -9,7 +9,7 @@
 ### Step 1: Clone the repository
 
 ```bash
-git clone https://github.com/obra/superpowers.git ~/.qoder/superpowers
+git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ```
 
 ### Step 2: Create symlinks
@@ -72,5 +72,5 @@ Skills activate automatically based on context. Or invoke manually:
 
 ## Getting Help
 
-- Full documentation: https://github.com/obra/superpowers/blob/main/docs/README.qoder.md
-- Report issues: https://github.com/obra/superpowers/issues
+- Full documentation: https://github.com/hdygxsj/superpowers/blob/main/docs/README.qoder.md
+- Report issues: https://github.com/hdygxsj/superpowers/issues

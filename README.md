@@ -99,7 +99,7 @@ gemini extensions update superpowers
 Tell Qoder:
 
 ```
-Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.qoder/INSTALL.md
+Fetch and follow instructions from https://raw.githubusercontent.com/hdygxsj/superpowers/refs/heads/main/.qoder/INSTALL.md
 ```
 
 **Detailed docs:** [docs/README.qoder.md](docs/README.qoder.md)
