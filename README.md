@@ -94,6 +94,16 @@ To update:
 gemini extensions update superpowers
 ```
 
+### Qoder
+
+Tell Qoder:
+
+```
+Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.qoder/INSTALL.md
+```
+
+**Detailed docs:** [docs/README.qoder.md](docs/README.qoder.md)
+
 ### Verify Installation
 
 Start a new session in your chosen platform and ask for something that should trigger a skill (for example, "help me plan this feature" or "let's debug this issue"). The agent should automatically invoke the relevant superpowers skill.
