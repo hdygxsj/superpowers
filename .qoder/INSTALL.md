@@ -29,50 +29,103 @@ chmod +x ~/.qoder/superpowers/hooks/session-start
 
 ### Step 3: Configure Hooks (Required)
 
-This injects Superpowers context into every conversation. Add to `~/.qoder/settings.json`:
+This injects Superpowers context into every conversation. Create a hook script:
+
+```bash
+mkdir -p ~/.qoder/hooks
+cat > ~/.qoder/hooks/superpowers-context.sh << 'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SUPERPOWERS_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)/superpowers"
+
+# Read using-superpowers content
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+using_superpowers_content=$(cat "${SUPERPOWERS_ROOT}/skills/using-superpowers/SKILL.md" 2>&1 || echo "")
+using_superpowers_escaped=$(escape_for_json "$using_superpowers_content")
+
+cat << JSONEOF
+{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"You have superpowers.\\n\\n**Below is the content of your 'superpowers:using-superpowers' skill:**\\n\\n${using_superpowers_escaped}"}}
+JSONEOF
+exit 0
+EOF
+chmod +x ~/.qoder/hooks/superpowers-context.sh
+```
+
+Add to `~/.qoder/settings.json`:
 
 ```json
 {
   "hooks": {
     "UserPromptSubmit": [{
-      "hooks": [{"type": "command", "command": "~/.qoder/superpowers/hooks/session-start"}]
+      "hooks": [{"type": "command", "command": "~/.qoder/hooks/superpowers-context.sh"}]
     }]
   }
 }
-```
-
-Make sure the hook script is executable:
-```bash
-chmod +x ~/.qoder/superpowers/hooks/session-start
 ```
 
 ### Step 4: Restart Qoder
 
 ## Project-Level Installation
 
-For project-specific installation, copy skills and agents to your project:
+For project-specific installation:
 
 ```bash
 git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 
 # In your project root
-mkdir -p .qoder/skills .qoder/agents
+mkdir -p .qoder/skills .qoder/agents .qoder/hooks
 cp -r /tmp/superpowers/skills/* .qoder/skills/
 cp -r /tmp/superpowers/agents/* .qoder/agents/
 
-# Configure hooks (use absolute path)
-cat >> .qoder/settings.json << 'EOF'
+# Create hook script
+cat > .qoder/hooks/superpowers-context.sh << 'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPERPOWERS_ROOT="/tmp/superpowers"
+
+escape_for_json() {
+  local s="$1"
+  s="${s//\\/\\\\}"
+  s="${s//\"/\\\"}"
+  s="${s//$'\n'/\\n}"
+  s="${s//$'\r'/\\r}"
+  s="${s//$'\t'/\\t}"
+  printf '%s' "$s"
+}
+
+using_superpowers_content=$(cat "${SUPERPOWERS_ROOT}/skills/using-superpowers/SKILL.md" 2>&1 || echo "")
+using_superpowers_escaped=$(escape_for_json "$using_superpowers_content")
+
+cat << JSONEOF
+{"hookSpecificOutput":{"hookEventName":"UserPromptSubmit","additionalContext":"You have superpowers.\\n\\n**Below is the content of your 'superpowers:using-superpowers' skill:**\\n\\n${using_superpowers_escaped}"}}
+JSONEOF
+exit 0
+EOF
+chmod +x .qoder/hooks/superpowers-context.sh
+
+# Configure hooks
+cat > .qoder/settings.json << 'EOF'
 {
   "hooks": {
     "UserPromptSubmit": [{
-      "hooks": [{"type": "command", "command": "/tmp/superpowers/hooks/session-start"}]
+      "hooks": [{"type": "command", "command": "$(pwd)/.qoder/hooks/superpowers-context.sh"}]
     }]
   }
 }
 EOF
 ```
-
-> **Note:** Project-level hooks use absolute paths. Team members should adjust the path to their local clone location.
 
 ## Updating
 
