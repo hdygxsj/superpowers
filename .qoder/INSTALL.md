@@ -27,9 +27,9 @@ ln -s ~/.qoder/superpowers/agents/*.md ~/.qoder/agents/
 chmod +x ~/.qoder/superpowers/hooks/session-start
 ```
 
-### Step 3: Configure Hooks (Optional)
+### Step 3: Configure Hooks (Required)
 
-Add to `~/.qoder/settings.json`:
+This injects Superpowers context into every conversation. Add to `~/.qoder/settings.json`:
 
 ```json
 {
@@ -41,17 +41,38 @@ Add to `~/.qoder/settings.json`:
 }
 ```
 
+Make sure the hook script is executable:
+```bash
+chmod +x ~/.qoder/superpowers/hooks/session-start
+```
+
 ### Step 4: Restart Qoder
 
 ## Project-Level Installation
 
-For project-specific skills, copy to your project:
+For project-specific installation, copy skills and agents to your project:
 
 ```bash
+git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
+
+# In your project root
 mkdir -p .qoder/skills .qoder/agents
-cp -r skills/* .qoder/skills/
-cp -r agents/* .qoder/agents/
+cp -r /tmp/superpowers/skills/* .qoder/skills/
+cp -r /tmp/superpowers/agents/* .qoder/agents/
+
+# Configure hooks (use absolute path)
+cat >> .qoder/settings.json << 'EOF'
+{
+  "hooks": {
+    "UserPromptSubmit": [{
+      "hooks": [{"type": "command", "command": "/tmp/superpowers/hooks/session-start"}]
+    }]
+  }
+}
+EOF
 ```
+
+> **Note:** Project-level hooks use absolute paths. Team members should adjust the path to their local clone location.
 
 ## Updating
 
