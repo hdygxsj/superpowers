@@ -34,8 +34,7 @@ Add to `~/.qoder/settings.json`:
 ```json
 {
   "hooks": {
-    "sessionStart": [{
-      "matcher": "startup|clear|compact",
+    "UserPromptSubmit": [{
       "hooks": [{"type": "command", "command": "~/.qoder/superpowers/hooks/session-start"}]
     }]
   }
