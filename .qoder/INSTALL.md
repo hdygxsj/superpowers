@@ -15,16 +15,15 @@ git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ### Step 2: Create symlinks
 
 ```bash
-# Skills
-mkdir -p ~/.qoder/skills
-ln -s ~/.qoder/superpowers/skills ~/.qoder/skills/superpowers
+# Skills (each skill as a separate symlink)
+for skill in ~/.qoder/superpowers/skills/*/; do
+  ln -s "$skill" ~/.qoder/skills/$(basename "$skill")
+done
 
 # Agents
-mkdir -p ~/.qoder/agents
-ln -s ~/.qoder/superpowers/agents/*.md ~/.qoder/agents/
-
-# Hooks (optional but recommended)
-chmod +x ~/.qoder/superpowers/hooks/session-start
+for agent in ~/.qoder/superpowers/agents/*.md; do
+  ln -sf "$agent" ~/.qoder/agents/
+done
 ```
 
 ### Step 3: Configure Hooks (Required)
@@ -37,10 +36,9 @@ cat > ~/.qoder/hooks/superpowers-context.sh << 'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SUPERPOWERS_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)/superpowers"
+SUPERPOWERS_ROOT=~/.qoder/superpowers
 
-# Read using-superpowers content
+# Escape string for JSON embedding
 escape_for_json() {
   local s="$1"
   s="${s//\\/\\\\}"
@@ -85,8 +83,16 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 
 # In your project root
 mkdir -p .qoder/skills .qoder/agents .qoder/hooks
-cp -r /tmp/superpowers/skills/* .qoder/skills/
-cp -r /tmp/superpowers/agents/* .qoder/agents/
+
+# Skills (each skill as a separate symlink)
+for skill in /tmp/superpowers/skills/*/; do
+  ln -s "$skill" .qoder/skills/$(basename "$skill")
+done
+
+# Agents (use .qoder/agents/ for Qoder-optimized descriptions)
+for agent in /tmp/superpowers/.qoder/agents/*.md; do
+  ln -sf "$agent" .qoder/agents/
+done
 
 # Create hook script
 cat > .qoder/hooks/superpowers-context.sh << 'EOF'
@@ -116,7 +122,7 @@ EOF
 chmod +x .qoder/hooks/superpowers-context.sh
 
 # Configure hooks
-cat > .qoder/settings.json << 'EOF'
+cat > .qoder/settings.json << 'SETTINGS'
 {
   "hooks": {
     "UserPromptSubmit": [{
@@ -124,8 +130,7 @@ cat > .qoder/settings.json << 'EOF'
     }]
   }
 }
-EOF
-```
+SETTINGS
 
 ## Updating
 
