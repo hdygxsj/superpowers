@@ -7,6 +7,23 @@ description: Use when starting any conversation - establishes how to find and us
 If you were dispatched as a subagent to execute a specific task, skip this skill.
 </SUBAGENT-STOP>
 
+## Session Start: AGENTS.md Check
+
+**At the START of every session, check for AGENTS.md:**
+
+```bash
+cat AGENTS.md 2>/dev/null || echo "No AGENTS.md found"
+```
+
+**If AGENTS.md exists:**
+- Read it to understand project knowledge structure
+- Follow any project-specific conventions listed
+- Note locations of specs, plans, reports, and conventions
+
+**If no AGENTS.md:**
+- For new projects: Will be created during finishing-a-development-branch
+- For existing projects: Proceed normally, AGENTS.md is optional
+
 <EXTREMELY-IMPORTANT>
 If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST invoke the skill.
 

@@ -131,6 +131,45 @@ After writing the complete plan, look at the spec with fresh eyes and check the 
 
 If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
 
+## E2E Testing Task (Web Applications)
+
+**For web application projects, always include an E2E testing task at the end:**
+
+````markdown
+### Task N: E2E 端到端测试
+
+**依赖:** 所有功能任务完成
+
+- [ ] **Step 1: 检查 Playwright 安装**
+
+```bash
+npx playwright --version || npx playwright install
+```
+
+- [ ] **Step 2: 编写 E2E 测试用例**
+
+测试核心用户旅程：
+- 主流程（happy path）
+- 关键边界情况
+- 错误处理
+
+- [ ] **Step 3: 运行 E2E 测试**
+
+```bash
+npx playwright test
+```
+
+- [ ] **Step 4: 全面评估**
+
+调用 `superpowers:e2e-evaluation` 进行：
+- 功能完整性检查
+- 流程连贯性评估
+- 交互体验审查
+- 生成评估报告
+````
+
+**Note:** This task ensures comprehensive quality assurance before completion.
+
 ## Execution Handoff
 
 After saving the plan, offer execution choice:

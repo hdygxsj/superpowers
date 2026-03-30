@@ -21,6 +21,13 @@ Load plan, review critically, execute all tasks, report when complete.
 3. If concerns: Raise them with your human partner before starting
 4. If no concerns: Create TodoWrite and proceed
 
+### Step 1.5: Report Initialization
+
+Before executing any task:
+1. Extract feature name from plan file
+2. Create report directory: `docs/superpowers/reports/YYYY-MM-DD-<feature-name>/`
+3. Initialize `decisions.md` with header
+
 ### Step 2: Execute Tasks
 
 For each task:
