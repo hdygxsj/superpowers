@@ -287,30 +287,6 @@ These techniques are part of systematic debugging and available in this director
 - **superpowers:test-driven-development** - For creating failing test case (Phase 4, Step 1)
 - **superpowers:verification-before-completion** - Verify fix worked before claiming success
 
-## Decision Logging
-
-**WHEN:** Root cause analysis complete (Phase 1-2 done)
-
-**ACTION:** Log the debugging decision to `docs/superpowers/reports/YYYY-MM-DD-<feature>/decisions.md`
-
-```markdown
-## [时间戳] 调试: <问题简述>
-
-### 问题现象
-<错误信息、堆栈、复现步骤>
-
-### 根因分析
-<根本原因，而非表面症状>
-
-### 解决方案
-<采取的修复措施>
-
-### 教训
-<从这次调试中学到什么，如何避免未来类似问题>
-```
-
-**NOTE:** 只有在功能开发上下文中（有活动的报告目录）才需要记录。独立调试会话无需记录。
-
 ## Real-World Impact
 
 From debugging sessions:

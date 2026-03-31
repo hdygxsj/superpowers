@@ -144,26 +144,6 @@ Wait for the user's response. If they request changes, make them and re-run the 
 - **Incremental validation** - Present design, get approval before moving on
 - **Be flexible** - Go back and clarify when something doesn't make sense
 
-## Convention Tracking
-
-**During brainstorming, watch for conventions being established:**
-
-- User expresses preferences ("I prefer...", "Always use...", "Never do...")
-- Technical decisions made ("Let's use X instead of Y")
-- Style/naming conventions agreed upon
-- Process or workflow decisions
-
-**When detected, invoke `superpowers:convention-tracking` to record:**
-
-| 类别 | 示例 |
-|------|------|
-| 代码规范 | 命名约定、文件组织、注释风格 |
-| 技术选型 | 框架选择、库偏好、工具链 |
-| 流程规范 | 分支策略、提交规范、审查流程 |
-| 设计规范 | UI 风格、API 设计原则 |
-
-**Recording is lightweight** — don't interrupt the flow, just note it in the background.
-
 ## Visual Companion
 
 A browser-based companion for showing mockups, diagrams, and visual options during brainstorming. Available as a tool — not a mode. Accepting the companion means it's available for questions that benefit from visual treatment; it does NOT mean every question goes through the browser.
