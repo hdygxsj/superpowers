@@ -4,20 +4,36 @@
 
 - [Qoder](https://qoder.com) installed
 
-## Installation
+## Step 1: 确认安装位置
 
-### Step 1: Clone the repository
+**在开始安装前，请先询问用户：**
+
+> Superpowers 可以安装到两个位置：
+>
+> 1. **用户目录** (`~/.qoder/`) — 全局生效，所有项目可用
+> 2. **项目目录** (`.qoder/`) — 仅当前项目可用，可提交到版本控制
+>
+> 你想安装到哪里？
+
+根据用户选择，执行下方对应的安装步骤。
+
+---
+
+## 选项 1: 用户目录安装 (`~/.qoder/`)
+
+### Step 2: Clone the repository
 
 ```bash
 git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ```
 
-### Step 2: Create symlinks
+### Step 3: Create symlinks
 
 ```bash
 # Skills (each skill as a separate symlink)
+mkdir -p ~/.qoder/skills ~/.qoder/agents
 for skill in ~/.qoder/superpowers/skills/*/; do
-  ln -s "$skill" ~/.qoder/skills/$(basename "$skill")
+  ln -sf "$skill" ~/.qoder/skills/$(basename "$skill")
 done
 
 # Agents
@@ -26,9 +42,9 @@ for agent in ~/.qoder/superpowers/agents/*.md; do
 done
 ```
 
-### Step 3: Configure Hooks (Required)
+### Step 4: Configure Hooks
 
-This injects Superpowers context into every conversation. Create a hook script:
+Create hook script:
 
 ```bash
 mkdir -p ~/.qoder/hooks
@@ -38,7 +54,6 @@ set -euo pipefail
 
 SUPERPOWERS_ROOT=~/.qoder/superpowers
 
-# Escape string for JSON embedding
 escape_for_json() {
   local s="$1"
   s="${s//\\/\\\\}"
@@ -72,29 +87,43 @@ Add to `~/.qoder/settings.json`:
 }
 ```
 
-### Step 4: Restart Qoder
+### Step 5: Restart Qoder
 
-## Project-Level Installation
+用户目录安装完成！
 
-For project-specific installation:
+---
+
+## 选项 2: 项目目录安装 (`.qoder/`)
+
+### Step 2: Clone to temporary location
 
 ```bash
 git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
+```
 
-# In your project root
+### Step 3: Create project structure and symlinks
+
+在项目根目录执行：
+
+```bash
 mkdir -p .qoder/skills .qoder/agents .qoder/hooks
 
 # Skills (each skill as a separate symlink)
 for skill in /tmp/superpowers/skills/*/; do
-  ln -s "$skill" .qoder/skills/$(basename "$skill")
+  ln -sf "$skill" .qoder/skills/$(basename "$skill")
 done
 
 # Agents (use .qoder/agents/ for Qoder-optimized descriptions)
 for agent in /tmp/superpowers/.qoder/agents/*.md; do
   ln -sf "$agent" .qoder/agents/
 done
+```
 
-# Create hook script
+### Step 4: Configure Hooks
+
+Create hook script:
+
+```bash
 cat > .qoder/hooks/superpowers-context.sh << 'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -120,22 +149,38 @@ JSONEOF
 exit 0
 EOF
 chmod +x .qoder/hooks/superpowers-context.sh
+```
 
-# Configure hooks
-cat > .qoder/settings.json << 'SETTINGS'
+Create `.qoder/settings.json`:
+
+```bash
+cat > .qoder/settings.json << 'EOF'
 {
   "hooks": {
     "UserPromptSubmit": [{
-      "hooks": [{"type": "command", "command": "$(pwd)/.qoder/hooks/superpowers-context.sh"}]
+      "hooks": [{"type": "command", "command": ".qoder/hooks/superpowers-context.sh"}]
     }]
   }
 }
-SETTINGS
+EOF
+```
+
+### Step 5: Restart Qoder
+
+项目目录安装完成！
+
+---
 
 ## Updating
 
+**用户目录安装：**
 ```bash
 cd ~/.qoder/superpowers && git pull
+```
+
+**项目目录安装：**
+```bash
+cd /tmp/superpowers && git pull
 ```
 
 ## Usage
