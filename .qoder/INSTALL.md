@@ -30,14 +30,15 @@ git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ### Step 3: Create symlinks
 
 ```bash
-# Skills (each skill as a separate symlink)
 mkdir -p ~/.qoder/skills ~/.qoder/agents
-for skill in ~/.qoder/superpowers/skills/*/; do
+
+# Skills (Qoder 会优先使用 .qoder/skills/ 中的同名 skill)
+for skill in ~/.qoder/superpowers/.qoder/skills/*/ ~/.qoder/superpowers/skills/*/; do
   ln -sf "$skill" ~/.qoder/skills/$(basename "$skill")
 done
 
-# Agents
-for agent in ~/.qoder/superpowers/agents/*.md; do
+# Agents (from .qoder/agents/ for Qoder-optimized descriptions)
+for agent in ~/.qoder/superpowers/.qoder/agents/*.md; do
   ln -sf "$agent" ~/.qoder/agents/
 done
 ```
@@ -108,8 +109,8 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 ```bash
 mkdir -p .qoder/skills .qoder/agents .qoder/hooks
 
-# Skills (each skill as a separate symlink)
-for skill in /tmp/superpowers/skills/*/; do
+# Skills (Qoder 会优先使用 .qoder/skills/ 中的同名 skill)
+for skill in /tmp/superpowers/.qoder/skills/*/ /tmp/superpowers/skills/*/; do
   ln -sf "$skill" .qoder/skills/$(basename "$skill")
 done
 
@@ -185,12 +186,21 @@ cd /tmp/superpowers && git pull
 
 ## Usage
 
-Skills activate automatically based on context. Or invoke manually:
+### Skills
 
 ```
 /brainstorming
 /writing-plans
 /subagent-driven-development
+```
+
+### Agents
+
+```
+/developer
+/tester
+/spec-reviewer
+/code-quality-reviewer
 ```
 
 ## Getting Help
