@@ -32,6 +32,11 @@ git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ```bash
 mkdir -p ~/.qoder/skills ~/.qoder/agents ~/.qoder/scripts
 
+# Clean up existing symlinks (ln -sf cannot overwrite directories)
+rm -rf ~/.qoder/skills/*
+rm -rf ~/.qoder/agents/*
+rm -rf ~/.qoder/scripts/*
+
 # Qoder-specific Skills (优先安装，会覆盖通用版本)
 for skill in ~/.qoder/superpowers/.qoder/skills/*/; do
   ln -sf "$skill" ~/.qoder/skills/$(basename "$skill")
@@ -121,6 +126,11 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 
 ```bash
 mkdir -p .qoder/skills .qoder/agents .qoder/hooks .qoder/scripts
+
+# Clean up existing symlinks (ln -sf cannot overwrite directories)
+rm -rf .qoder/skills/*
+rm -rf .qoder/agents/*
+rm -rf .qoder/scripts/*
 
 # Qoder-specific Skills (优先安装，会覆盖通用版本)
 for skill in /tmp/superpowers/.qoder/skills/*/; do
