@@ -32,9 +32,17 @@ git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ```bash
 mkdir -p ~/.qoder/skills ~/.qoder/agents
 
-# Skills (Qoder 会优先使用 .qoder/skills/ 中的同名 skill)
-for skill in ~/.qoder/superpowers/.qoder/skills/*/ ~/.qoder/superpowers/skills/*/; do
+# Qoder-specific Skills (优先安装，会覆盖通用版本)
+for skill in ~/.qoder/superpowers/.qoder/skills/*/; do
   ln -sf "$skill" ~/.qoder/skills/$(basename "$skill")
+done
+
+# Core Skills (跳过已存在的同名 skill)
+for skill in ~/.qoder/superpowers/skills/*/; do
+  name=$(basename "$skill")
+  if [ ! -e ~/.qoder/skills/"$name" ]; then
+    ln -sf "$skill" ~/.qoder/skills/"$name"
+  fi
 done
 
 # Agents (from .qoder/agents/ for Qoder-optimized descriptions)
@@ -109,9 +117,17 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 ```bash
 mkdir -p .qoder/skills .qoder/agents .qoder/hooks
 
-# Skills (Qoder 会优先使用 .qoder/skills/ 中的同名 skill)
-for skill in /tmp/superpowers/.qoder/skills/*/ /tmp/superpowers/skills/*/; do
+# Qoder-specific Skills (优先安装，会覆盖通用版本)
+for skill in /tmp/superpowers/.qoder/skills/*/; do
   ln -sf "$skill" .qoder/skills/$(basename "$skill")
+done
+
+# Core Skills (跳过已存在的同名 skill)
+for skill in /tmp/superpowers/skills/*/; do
+  name=$(basename "$skill")
+  if [ ! -e .qoder/skills/"$name" ]; then
+    ln -sf "$skill" .qoder/skills/"$name"
+  fi
 done
 
 # Agents (use .qoder/agents/ for Qoder-optimized descriptions)
