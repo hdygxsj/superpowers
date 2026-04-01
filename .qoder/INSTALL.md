@@ -32,22 +32,16 @@ git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ```bash
 mkdir -p ~/.qoder/skills ~/.qoder/agents ~/.qoder/scripts
 
-# Clean up existing symlinks (ln -sf cannot overwrite directories)
-rm -rf ~/.qoder/skills/*
-rm -rf ~/.qoder/agents/*
-rm -rf ~/.qoder/scripts/*
-
-# Qoder-specific Skills (优先安装，会覆盖通用版本)
-for skill in ~/.qoder/superpowers/.qoder/skills/*/; do
+# Core Skills (先安装通用技能)
+for skill in ~/.qoder/superpowers/skills/*/; do
   ln -sf "$skill" ~/.qoder/skills/$(basename "$skill")
 done
 
-# Core Skills (跳过已存在的同名 skill)
-for skill in ~/.qoder/superpowers/skills/*/; do
+# Qoder-specific Skills (后安装，覆盖通用版本中的同名 skill)
+for skill in ~/.qoder/superpowers/.qoder/skills/*/; do
   name=$(basename "$skill")
-  if [ ! -e ~/.qoder/skills/"$name" ]; then
-    ln -sf "$skill" ~/.qoder/skills/"$name"
-  fi
+  rm -rf ~/.qoder/skills/"$name"  # 删除通用版本
+  ln -sf "$skill" ~/.qoder/skills/"$name"  # 安装 Qoder 版本
 done
 
 # Agents (from .qoder/agents/ for Qoder-optimized descriptions)
@@ -127,22 +121,16 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 ```bash
 mkdir -p .qoder/skills .qoder/agents .qoder/hooks .qoder/scripts
 
-# Clean up existing symlinks (ln -sf cannot overwrite directories)
-rm -rf .qoder/skills/*
-rm -rf .qoder/agents/*
-rm -rf .qoder/scripts/*
-
-# Qoder-specific Skills (优先安装，会覆盖通用版本)
-for skill in /tmp/superpowers/.qoder/skills/*/; do
+# Core Skills (先安装通用技能)
+for skill in /tmp/superpowers/skills/*/; do
   ln -sf "$skill" .qoder/skills/$(basename "$skill")
 done
 
-# Core Skills (跳过已存在的同名 skill)
-for skill in /tmp/superpowers/skills/*/; do
+# Qoder-specific Skills (后安装，覆盖通用版本中的同名 skill)
+for skill in /tmp/superpowers/.qoder/skills/*/; do
   name=$(basename "$skill")
-  if [ ! -e .qoder/skills/"$name" ]; then
-    ln -sf "$skill" .qoder/skills/"$name"
-  fi
+  rm -rf .qoder/skills/"$name"  # 删除通用版本
+  ln -sf "$skill" .qoder/skills/"$name"  # 安装 Qoder 版本
 done
 
 # Agents (use .qoder/agents/ for Qoder-optimized descriptions)
