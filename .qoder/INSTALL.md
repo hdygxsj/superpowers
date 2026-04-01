@@ -30,7 +30,7 @@ git clone https://github.com/hdygxsj/superpowers.git ~/.qoder/superpowers
 ### Step 3: Create symlinks
 
 ```bash
-mkdir -p ~/.qoder/skills ~/.qoder/agents
+mkdir -p ~/.qoder/skills ~/.qoder/agents ~/.qoder/scripts
 
 # Skills (Qoder 会优先使用 .qoder/skills/ 中的同名 skill)
 for skill in ~/.qoder/superpowers/.qoder/skills/*/ ~/.qoder/superpowers/skills/*/; do
@@ -40,6 +40,11 @@ done
 # Agents (from .qoder/agents/ for Qoder-optimized descriptions)
 for agent in ~/.qoder/superpowers/.qoder/agents/*.md; do
   ln -sf "$agent" ~/.qoder/agents/
+done
+
+# Scripts (sandbox proxy, etc.)
+for script in ~/.qoder/superpowers/.qoder/scripts/*; do
+  ln -sf "$script" ~/.qoder/scripts/
 done
 ```
 
@@ -107,7 +112,7 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 在项目根目录执行：
 
 ```bash
-mkdir -p .qoder/skills .qoder/agents .qoder/hooks
+mkdir -p .qoder/skills .qoder/agents .qoder/hooks .qoder/scripts
 
 # Skills (Qoder 会优先使用 .qoder/skills/ 中的同名 skill)
 for skill in /tmp/superpowers/.qoder/skills/*/ /tmp/superpowers/skills/*/; do
@@ -117,6 +122,11 @@ done
 # Agents (use .qoder/agents/ for Qoder-optimized descriptions)
 for agent in /tmp/superpowers/.qoder/agents/*.md; do
   ln -sf "$agent" .qoder/agents/
+done
+
+# Scripts (sandbox proxy, etc.)
+for script in /tmp/superpowers/.qoder/scripts/*; do
+  ln -sf "$script" .qoder/scripts/
 done
 ```
 
