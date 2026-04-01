@@ -106,33 +106,22 @@ git clone https://github.com/hdygxsj/superpowers.git /tmp/superpowers
 
 ### Step 3: Create project structure and symlinks
 
-在项目根目录执行：
+**创建以下目录：**
+- `.qoder/skills/` — Skills 安装目录
+- `.qoder/agents/` — Agents 安装目录
+- `.qoder/hooks/` — Hooks 目录
+- `.qoder/scripts/` — Scripts 安装目录
 
-```bash
-mkdir -p .qoder/skills .qoder/agents .qoder/hooks .qoder/scripts
+**安装 Skills：**
+1. 将仓库的 `skills/` 目录下的所有技能 symlink 到 `.qoder/skills/`
+2. 将仓库的 `.qoder/skills/` 目录下的 Qoder 专用技能 symlink 到 `.qoder/skills/`
+3. **重要：** 如果 Qoder 专用技能与通用技能同名，先删除通用技能的 symlink，再创建 Qoder 专用技能的 symlink
 
-# Core Skills (先安装通用技能)
-for skill in /tmp/superpowers/skills/*/; do
-  ln -sf "$skill" .qoder/skills/$(basename "$skill")
-done
+**安装 Agents：**
+- 将仓库的 `.qoder/agents/` 目录下的所有 agent 文件 symlink 到 `.qoder/agents/`
 
-# Qoder-specific Skills (后安装，覆盖通用版本中的同名 skill)
-for skill in /tmp/superpowers/.qoder/skills/*/; do
-  name=$(basename "$skill")
-  rm -rf .qoder/skills/"$name"  # 删除通用版本
-  ln -sf "$skill" .qoder/skills/"$name"  # 安装 Qoder 版本
-done
-
-# Agents (use .qoder/agents/ for Qoder-optimized descriptions)
-for agent in /tmp/superpowers/.qoder/agents/*.md; do
-  ln -sf "$agent" .qoder/agents/
-done
-
-# Scripts (sandbox proxy, etc.)
-for script in /tmp/superpowers/.qoder/scripts/*; do
-  ln -sf "$script" .qoder/scripts/
-done
-```
+**安装 Scripts：**
+- 将仓库的 `.qoder/scripts/` 目录下的所有脚本 symlink 到 `.qoder/scripts/`
 
 ### Step 4: Configure Hooks
 
